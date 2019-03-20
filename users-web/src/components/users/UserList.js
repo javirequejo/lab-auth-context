@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { usersService } from '../../services';
+import { withAuthConsumer } from '../../contexts/AuthStore'
 import UserItem from './UserItem';
 
 class UserList extends Component {
@@ -17,9 +18,11 @@ class UserList extends Component {
   }
 
   render() {
+    const {isAdmin} = this.props;
     const users = this.state
       .users
-      .map(user => (<UserItem key={user.id} {...user} onClickDelete={this.handleDeleteUser}/>));
+      .map(user => (<UserItem key={user.id} {...user} onClickDelete={this.handleDeleteUser} isAdmin={isAdmin()} />));
+
 
     return (
       <div className="row">
@@ -33,4 +36,4 @@ class UserList extends Component {
   }
 }
 
-export default UserList
+export default withAuthConsumer(UserList);
